@@ -9,6 +9,13 @@ And since these files are batch files, they're intended to be used from the comm
 
 ## Installation
 The batch files should be placed somewhere where they can be globally reached, which is a directory that was added to you `PATH` variable.  
+If you don't know what that is or how to add to it, here are some links that might help you (note that I have no affiliation with these whatsoever):  
+* https://superuser.com/questions/284342/what-are-path-and-other-environment-variables-and-how-can-i-set-or-use-them
+* https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/
+* https://thegeekpage.com/environment-variables-in-windows-11/
+* https://youtu.be/8HK1BsRprt0?t=222
+
+
 Theoretically they could also be placed directly inside the directory you want to use them, but then you'd have to copy them again for every mod you make.  
 You will also need to set the path to these utils, and to the Rebel Galaxy Outlaw game installation, in the `rgo-variables.bat` file.  
 The `UTILS_DIR` variable defines the path to the location of the rgo-lua-utils.  

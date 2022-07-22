@@ -76,4 +76,5 @@ See the tool's page for a full description of what it can do (it's a lot!).
 
 ### Credits
 hhrhhr / Dmitry Zaitsev  
-NirSoft / Nir Sofer
+NirSoft / Nir Sofer  
+sp00n  

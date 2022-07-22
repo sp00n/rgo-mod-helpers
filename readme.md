@@ -4,7 +4,7 @@
 ## Requirements
 The [rgo-lua-utils](https://github.com/sp00n/rgo-lua-utils) are required for these batch files to work, including all of their dependencies.  
 Obviously you should also have Rebel Galaxy Outlaw installed.  
-And since these files are batch files, they're intended to be used from the command line (terminal window), so you should be somewhat familiar with it.
+And since these files are batch files, they're intended to be used from the command line (terminal window), so you should be somewhat familiar with it.  
 
 
 ## Installation
@@ -13,11 +13,12 @@ Theoretically they could also be placed directly inside the directory you want t
 You will also need to set the path to these utils, and to the Rebel Galaxy Outlaw game installation, in the `rgo-variables.bat` file.  
 The `UTILS_DIR` variable defines the path to the location of the rgo-lua-utils.  
 The `GAME_DIR` variable defines the path to the installation of Rebel Galaxy Outlaw.  
-_**Do not use any quotes or a trailing backslash for these path variables!**_
+_**Do not use any quotes or a trailing backslash for these path variables!**_  
 
 
 ## How to Extract and Convert all DATA.PAK files
-To extract and convert all files, navigate to your game's PAKS folder and run `rgo-convert-all <optional_target_directory>`.  
+To extract and convert all files, navigate to your game's PAKS folder and run  
+`rgo-convert-all <optional_target_directory>`  
 This will extract all of your `DATAX.PAK` files into the provided directory, and if non was give, into the `DATA` folder inside the `PAKS` directory of your game installation.  
 After that, it will run the conversion process, creating a `.lua` representation of every `.DAT`, `.WDAT`. `.IMAGESET`, and `.LAYOUT` file inside the extracted directory.  
 
@@ -34,7 +35,7 @@ After you have all the files you need, you can run `rgo-pack <optional_version_s
 For example: `rgo-pack 1.0.0` run inside the _x99_New_Missile_Launcher_by_me_ directory will create a `x99_New_Missile_Launcher_by_me.v.1.0.0.pak` file.  
 If you omit the optional version string, it will just create a `x99_New_Missile_Launcher_by_me.pak` file.  
 
-`rgo-deploy <optional_version_string>` is very similar, it will create the pak mod file, but will also automatically move the file to you game's PAKS folder, so that you can immediately test the mod.
+`rgo-deploy <optional_version_string>` is very similar, it will create the pak mod file, but will also automatically move the file to you game's PAKS folder, so that you can immediately test the mod.  
 
 
 
@@ -52,4 +53,4 @@ If you omit the optional version string, it will just create a `x99_New_Missile_
 
 > `rgo-variables.bat`  
 > This is not an "actual" batch file, instead it holds the variables that are needed for the other batch files to work.  
-> You need to adjust the `UTILS_DIR` and `GAME_DIR` parameters inside this file for the other files to work.
+> You need to adjust the `UTILS_DIR` and `GAME_DIR` parameters inside this file for the other files to work.  

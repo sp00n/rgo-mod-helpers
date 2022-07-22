@@ -53,15 +53,22 @@ If you omit the optional version string, it will just create a `x99_New_Missile_
 
 > `rgo-variables.bat`  
 > This is not an "actual" batch file, instead it holds the variables that are needed for the other batch files to work.  
-> You need to adjust the `UTILS_DIR` and `GAME_DIR` parameters inside this file for the other files to work.  
+> You need to adjust the `UTILS_DIR` and `GAME_DIR` parameters inside this file for the other files to work.
 
+> `NirCmd.chm`
+> Help file for the NirCmd tool.
 
+> `nircmd.exe`
+> The NirCmd tool, used to modify the date of the created .pak file (see below).  
+> 
+> 
 
 ### Note
 This repository includes the excellent `NirCmd` by [NirSoft](https://www.nirsoft.net/utils/nircmd.html).  
-From the tool description:  
-> _"NirCmd is a small command-line utility that allows you to do some useful tasks without displaying any user interface. By running NirCmd with simple command-line option, you can write and delete values and keys in the Registry, write values into INI file, dial to your internet account or connect to a VPN network, restart windows or shut down the computer, create shortcut to a file, change the created/modified date of a file, change your display settings, turn off your monitor, open the door of your CD-ROM drive, and more..."_  
+From the tool's description:  
+> _NirCmd is a small command-line utility that allows you to do some useful tasks without displaying any user interface. By running NirCmd with simple command-line option, you can write and delete values and keys in the Registry, write values into INI file, dial to your internet account or connect to a VPN network, restart windows or shut down the computer, create shortcut to a file, change the created/modified date of a file, change your display settings, turn off your monitor, open the door of your CD-ROM drive, and more..._  
 
-In this case, it's used to modifiy the creation and modification date of the generated .pak file, because the game will ignore the content of any additional .pak file, if the the date of the additional file is earlier than those of the original .PAK files.  
+In our case, it's used to modifiy the creation and modification date of the generated .pak file, because the game will ignore the content of any additional .pak file if the date of the additional file is earlier than those of the original .PAK files.  
+Therefore date is set to the year 2099 for the newly created .pak files, which should hopefully prevent any issues.  
 
 See the tool's page for a full description of what it can do (it's a lot!).

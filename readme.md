@@ -72,3 +72,8 @@ In our case, it's used to modifiy the creation and modification date of the gene
 Therefore the date is set to the year 2099 for the newly created .pak files, which should hopefully prevent any issues.  
 
 See the tool's page for a full description of what it can do (it's a lot!).  
+
+
+### Credits
+hhrhhr / Dmitry Zaitsev
+NirSoft / Nir Sofer

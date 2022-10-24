@@ -6,21 +6,50 @@ REM Then it converts all the .lua files to their .DAT, .WDAT, .LAYOUT, etc count
 REM Then it packs all the files in the DAT folder into a .PAK file, which has the same name as the folder that this batch file was called from
 REM You can optionally add a version string to the .PAK file
 
-SET CALLER=pack
-CALL rgo-variables.bat
 
-SET VERSION=%1
-SET MOD_FOLDER=%CURRENT_PATH%
-SET MOD_FOLDER_LUA=%CURRENT_PATH%\LUA
-SET MOD_FOLDER_DAT=%CURRENT_PATH%\DAT
+REM Check if the PATH variable is set or the script is run from inside the directory
+WHERE /q rgo-variables.bat
 
-IF [%VERSION%] == [] (
-    SET PAK_FILE=%FOLDER_NAME%.pak
-) ELSE (
-    SET PAK_FILE=%FOLDER_NAME%.v%VERSION%.pak
+IF ERRORLEVEL 1 (
+    echo=
+    echo Couldn't find rgo-variables.bat^^!
+    echo Please make sure it's in the same directory as this file or is available within
+    echo one of the directories added to the PATH variable^^!
+    pause
+    GOTO :EOF
 )
 
-SET PAK_FILE_WITH_PATH=%MOD_FOLDER%%FOLDER%\%PAK_FILE%
+
+REM Check for the existance of the lua.exe
+WHERE /q lua.exe
+
+IF ERRORLEVEL 1 (
+    echo=
+    echo Couldn't find lua.exe^^!
+    echo Please make sure the lua.exe is available within one of the directories added
+    echo to the PATH variable^^!
+    pause
+    GOTO :EOF
+)
+
+
+SET "CALLER=pack"
+CALL rgo-variables.bat
+
+
+SET "VERSION=%1"
+SET "MOD_FOLDER=%CURRENT_PATH%"
+SET "MOD_FOLDER_LUA=%CURRENT_PATH%\LUA"
+SET "MOD_FOLDER_DAT=%CURRENT_PATH%\DAT"
+
+
+IF [%VERSION%] == [] (
+    SET "PAK_FILE=%FOLDER_NAME%.pak"
+) ELSE (
+    SET "PAK_FILE=%FOLDER_NAME%.v%VERSION%.pak"
+)
+
+SET "PAK_FILE_WITH_PATH=%MOD_FOLDER%%FOLDER%\%PAK_FILE%"
 
 
 REM Note: this cannot appear before the variables are set, otherwise rgo-deploy.bat will fail due to missing variables
@@ -49,10 +78,20 @@ REM echo %%~dp0%%~1 is "%~dp0%~1"
 
 
 echo=
-echo =========================================================================================
+echo ================================================================================
 echo Generating a new mod pak file: %PAK_FILE%
-echo =========================================================================================
+echo ================================================================================
 echo=
+
+
+IF NOT EXIST "%MOD_FOLDER_LUA%" (
+    echo=
+    echo Couldn't find the LUA directory with the files for the package, aborting^^!
+    pause
+    cmd /c exit 1
+    GOTO :EOF
+)
+
 
 
 REM *********************************************
@@ -62,8 +101,9 @@ echo=
 echo Removing existing DAT directory...
 rd /S /Q "%MOD_FOLDER_DAT%"
 
-IF errorlevel 1 (
+IF ERRORLEVEL 1 (
     pause
+    cmd /c exit 1
     GOTO :EOF
 )
 
@@ -76,8 +116,9 @@ echo=
 echo Copying files...
 xcopy /E /I /R /Y "%MOD_FOLDER_LUA%" "%MOD_FOLDER_DAT%"
 
-IF errorlevel 1 (
+IF ERRORLEVEL 1 (
     pause
+    cmd /c exit 1
     GOTO :EOF
 )
 
@@ -89,9 +130,9 @@ REM *********************************************
 echo=
 echo Converting all .lua files...
 FOR /f "tokens=* delims=" %%a in ('dir "%MOD_FOLDER_DAT%\*.lua" /s /b') do (
-    set FILE=%%a
-    set DAT_FILE=!FILE:.lua=!
-    set BASEFILE=%%~na
+    SET "FILE=%%a"
+    SET "DAT_FILE=!FILE:.lua=!"
+    SET "BASEFILE=%%~na"
 
     rem echo=
     rem echo From: !FILE!
@@ -99,18 +140,19 @@ FOR /f "tokens=* delims=" %%a in ('dir "%MOD_FOLDER_DAT%\*.lua" /s /b') do (
     rem echo Base: !BASEFILE!
     rem echo first 3: !BASEFILE:~0,3!
     
-    echo Generating !DAT_FILE!
+    echo Generating "!DAT_FILE!"
 
     rem Check if we need to convert to a layout file
     IF /i "16_" equ "!BASEFILE:~0,3!" (
-        lua "%UTILS_DIR%\lua2layout.lua" "!FILE!" "!DAT_FILE!"
+        lua.exe "%UTILS_DIR%\lua2layout.lua" "!FILE!" "!DAT_FILE!"
     ) ELSE (
-        lua "%UTILS_DIR%\lua2dat.lua" "!FILE!" "!DAT_FILE!"
+        lua.exe "%UTILS_DIR%\lua2dat.lua" "!FILE!" "!DAT_FILE!"
     )
 
 
-    IF errorlevel 1 (
+    IF ERRORLEVEL 1 (
         pause
+        cmd /c exit 1
         GOTO :EOF
     )
 )
@@ -124,8 +166,9 @@ echo=
 echo Cleaning up...
 del /S /Q "%MOD_FOLDER_DAT%\*.lua"
 
-IF errorlevel 1 (
+IF ERRORLEVEL 1 (
     pause
+    cmd /c exit 1
     GOTO :EOF
 )
 
@@ -136,10 +179,11 @@ REM *** Pack the files
 REM *********************************************
 echo=
 echo Generating the .pak file...
-lua "%UTILS_DIR%\pack.lua" "%MOD_FOLDER_DAT%" "%PAK_FILE_WITH_PATH%"
+lua.exe "%UTILS_DIR%\pack.lua" "%MOD_FOLDER_DAT%" "%PAK_FILE_WITH_PATH%"
 
-IF errorlevel 1 (
+IF ERRORLEVEL 1 (
     pause
+    cmd /c exit 1
     GOTO :EOF
 )
 
@@ -153,7 +197,7 @@ echo Changing the date of the .pak file...
 "%BAT_DIR%\nircmd.exe" setfiletime "%PAK_FILE_WITH_PATH%" "01-01-2099 10:00:00" "01-01-2099 10:00:00"
 
 
-IF NOT errorlevel 1 (
+IF NOT ERRORLEVEL 1 (
     echo=
     echo=
     
@@ -163,6 +207,6 @@ IF NOT errorlevel 1 (
         echo SUCCESS^^!
     )
 
-    echo Created %PAK_FILE_WITH_PATH%
+    echo Created "%PAK_FILE_WITH_PATH%"
     echo=
 )

@@ -176,10 +176,11 @@ IF ERRORLEVEL 1 (
 
 REM *********************************************
 REM *** Pack the files
+REM *** Note: We need a relative path to the DAT directory here
 REM *********************************************
 echo=
 echo Generating the .pak file...
-lua.exe "%UTILS_DIR%\pack.lua" "%MOD_FOLDER_DAT%" "%PAK_FILE_WITH_PATH%"
+lua.exe "%UTILS_DIR%\pack.lua" DAT "%PAK_FILE_WITH_PATH%"
 
 IF ERRORLEVEL 1 (
     pause
